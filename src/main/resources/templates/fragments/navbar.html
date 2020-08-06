@@ -12,7 +12,7 @@
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li th:classappend="${#request.requestURI.startsWith('')  ? 'active':''}" class="nav-item">
+            <li th:classappend="${#request.requestURI == '/' ? 'active':''}" class="nav-item">
                 <a class="nav-link" th:href="${'/index'}">Home</a>
             </li>
             <li th:classappend="${#request.requestURI.startsWith('/marathons') ? 'active':''}" class="nav-item">

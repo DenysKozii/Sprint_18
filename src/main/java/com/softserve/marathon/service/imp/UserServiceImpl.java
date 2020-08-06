@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public User createOrUpdateUser(User entity) {
+    public boolean createOrUpdateUser(User entity) {
         if (entity.getId() != null) {
             Optional<User> user = userRepository.findById(entity.getId());
             if (user.isPresent()) {
@@ -80,10 +80,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 updateUser.setLastName(entity.getLastName());
                 updateUser.setRole(entity.getRole());
                 updateUser.setPassword(entity.getPassword());
-                return userRepository.save(updateUser);
+                userRepository.save(updateUser);
+                return false;
             }
         }
-        return userRepository.save(entity);
+        userRepository.save(entity);
+        return true;
     }
 
     @Override

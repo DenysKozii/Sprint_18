@@ -23,6 +23,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserServiceImpl userServiceImpl;
 
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return new UserServiceImpl();
+//    }
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -30,26 +35,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder(8);
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                    .authorizeRequests()
-                    .antMatchers("/registration", "/h2-console/**", "/static/**", "/validation.js","validation.js").permitAll()
-                    .anyRequest().authenticated()
+                .authorizeRequests()
+                .antMatchers("/registration", "/h2-console/**", "/static/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .usernameParameter("email")
-                    .defaultSuccessUrl("/profile", true)
-                    .permitAll()
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .defaultSuccessUrl("/profile", true)
+                .permitAll()
                 .and()
-                    .logout()
-                    .permitAll();
+                .logout()
+                .permitAll();
 
-                http.csrf().disable(); //just for h2 console see (got 403 error - Forbidden)
-                http.headers().frameOptions().disable();
+        http.csrf().disable(); //just for h2 console see (got 403 error - Forbidden)
+        http.headers().frameOptions().disable();
     }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

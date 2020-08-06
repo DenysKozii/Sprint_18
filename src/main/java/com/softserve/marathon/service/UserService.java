@@ -15,7 +15,7 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
-    User createOrUpdateUser(User user);
+    boolean createOrUpdateUser(User user);
 
     List<User> getAllByRole(Role role);
 

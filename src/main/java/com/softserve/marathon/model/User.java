@@ -47,6 +47,10 @@ public class User implements UserDetails {
     @JoinColumn(name = "id_role")
     private Role role;
 
+    @Transient
+    private String confirmPassword;
+    private boolean active;
+
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private List<Marathon> marathons = new ArrayList<>();
 
@@ -148,6 +152,22 @@ public class User implements UserDetails {
 
     public List<Marathon> getMarathons() {
         return marathons;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override

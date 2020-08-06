@@ -1,0 +1,38 @@
+a.badge.badge-primary {
+    float: right;
+    margin: 10px;
+}
+
+.validation-error {
+    top: 100%;
+    z-index: 5;
+    max-width: 100%;
+    padding: .5rem;
+    margin-top: .1rem;
+    font-size: .875rem;
+    line-height: 1;
+    color: #fff;
+    background-color: rgba(220, 53, 69, .8);
+    border-radius: .2rem;
+}
+
+.container.index {
+    max-width: 810px;
+}
+
+.container h2 {
+    margin: 10px 0;
+}
+
+#action-bar .col {
+    margin: 0;
+    padding: 0;
+}
+
+#action-bar a {
+    margin: 8px 0;
+}
+
+#action-bar {
+    padding: 0;
+}

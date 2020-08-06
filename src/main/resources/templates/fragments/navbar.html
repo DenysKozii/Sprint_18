@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a th:href="${'/index'}" class="nav-item nav-link active">Home</a>
+            <a th:href="${'/marathons/'}" class="nav-item nav-link active">Marathons</a>
+            <a th:href="${'/students/'}"class="nav-item nav-link active">Students</a>
+        </div>
+    </div>
+</nav>
+
+</body>
+
+</html>

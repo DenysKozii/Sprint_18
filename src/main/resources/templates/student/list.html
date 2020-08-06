@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: common_header(~{::title})">
+    <title>Student List</title>
+</head>
+
+<body>
+<div th:replace="fragments/navbar :: nav"></div>
+
+<div class="container">
+    <div class="container" id="action-bar">
+        <div class="row align-items-center">
+            <div class="col-md-2 offset-md-10 text-right">
+                <a href="/marathons" class="btn btn-primary" role="button">Go To Marathons</a>
+            </div>
+        </div>
+    </div>
+    <h2>Student List</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${students}">
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.firstName}"></td>
+            <td th:text="${student.lastName}"></td>
+            <td th:text="${student.email}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: common_header(~{::title})">
+    <title th:text="'Marathon List'"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="fragments/navbar :: nav"></div>
+<div class="container">
+    <div class="container" id="action-bar">
+        <div class="row align-items-center">
+            <div class="col-md-2 offset-md-10 text-right">
+                <a href="/marathons/add" class="btn btn-primary" role="button">Create Marathon</a>
+            </div>
+        </div>
+    </div>
+    <h2>Marathon List</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Actions</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="marathon : ${marathons}">
+            <td th:text="${marathon.id}"></td>
+            <td th:text="${marathon.title}"></td>
+            <td>
+                <a th:href="${'/students/' + marathon.id}" class="btn btn-info" role="button">Show Students</a>
+                <a th:href="${'/marathons/edit/' + marathon.id}" class="btn btn-warning" role="button">Edit</a>
+                <a th:href="${'/marathons/delete/' + marathon.id}" class="btn btn-danger" role="button">Close</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+</html>

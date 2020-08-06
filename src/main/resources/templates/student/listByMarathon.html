@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: common_header(~{::title})">
+    <title th:text="'Marathon #' + ${marathonId} + ' Student List'"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/navbar :: nav"></div>
+
+<div class="container">
+    <h2 th:text="'Marathon #' + ${marathonId} + ' Student List'"></h2>
+    <div class="container" id="action-bar">
+        <div class="row align-items-center">
+            <div class="col-md-3">
+                <a th:href="@{/students/{marathon}/create(marathon=${marathonId})}" class="btn btn-primary"
+                   role="button">Create New Student</a>
+            </div>
+            <div class="col">
+                <form th:action="@{/students/{marathon}/add(marathon=${marathonId})}" method="get">
+                    <div class="form-row align-items-center col-auto my-1">
+                        <div class="col-auto my-1">
+                            <label class="col mr-sm-2 form-inline" for="students" style>Add Student to Marathon:</label>
+                        </div>
+                        <div class="col-auto my-1">
+                            <select class="custom-select mr-sm-2" id="students" name="studentId">
+                                <option selected="">Choose student</option>
+                                <option th:each="student : ${allStudents}" th:value="${student.id}"
+                                        th:text="${student.firstName + ' ' + student.lastName}"></option>
+                            </select>
+                        </div>
+                        <div class="col-auto my-1">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${students}">
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.firstName}"></td>
+            <td th:text="${student.lastName}"></td>
+            <td th:text="${student.email}"></td>
+            <td>
+                <a th:href="@{/students/{marathon}/edit/{student}(marathon=${marathonId},student=${student.id})}"
+                   class="btn btn-warning" role="button">Edit</a>
+                <a th:href="@{/students/{marathon}/delete/{student}(marathon=${marathonId},student=${student.id})}"
+                   class="btn btn-danger" role="button">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

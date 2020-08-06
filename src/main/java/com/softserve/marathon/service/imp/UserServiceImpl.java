@@ -1,14 +1,11 @@
 package com.softserve.marathon.service.imp;
 
 import com.softserve.marathon.exception.EntityNotFoundException;
+import com.softserve.marathon.model.*;
 import com.softserve.marathon.repository.MarathonRepository;
 import com.softserve.marathon.repository.ProgressRepository;
 import com.softserve.marathon.repository.UserRepository;
 import com.softserve.marathon.service.UserService;
-import com.softserve.marathon.model.Marathon;
-import com.softserve.marathon.model.Progress;
-import com.softserve.marathon.model.Task;
-import com.softserve.marathon.model.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,11 +13,14 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final MarathonRepository marathonRepository;
     private final ProgressRepository progressRepository;
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllByRole(User.Role role) {
+    public List<User> getAllByRole(Role role) {
         List<User> roles = userRepository.getAllByRole(role);
         return !roles.isEmpty() ? roles : new ArrayList<>();
     }
@@ -136,5 +136,10 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.getUserByEmail(email);
     }
 }

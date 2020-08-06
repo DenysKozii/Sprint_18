@@ -31,7 +31,8 @@
             <td th:text="${marathon.id}"></td>
             <td th:text="${marathon.title}"></td>
             <td>
-                <a th:href="${'/students/' + marathon.id}" class="btn btn-info" role="button">Show Students</a>
+                <a th:href="${'/students/' + marathon.id}" class="btn btn-info" role="button">Students</a>
+                <a th:href="${'/sprints/marathon/' + marathon.id}" class="btn btn-info" role="button">Sprints</a>
                 <a th:href="${'/marathons/edit/' + marathon.id}" class="btn btn-warning" role="button">Edit</a>
                 <a th:href="${'/marathons/delete/' + marathon.id}" class="btn btn-danger" role="button">Close</a>
             </td>

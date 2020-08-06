@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: common_header(~{::title})">
+    <title th:text="'Marathon #' + ${marathonId} + ' Sprint List'"></title>
+</head>
+
+<body>
+<div th:replace="fragments/navbar :: nav"></div>
+
+<div class="container">
+    <div class="container" id="action-bar">
+        <div class="row align-items-center">
+            <div class="col-md-2 offset-md-10 text-right">
+                <a href="/marathons" class="btn btn-primary" role="button">Go To Marathons</a>
+            </div>
+        </div>
+    </div>
+    <h2 th:text="'Marathon #' + ${marathonId} + ' Sprint List'"></h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Start date</th>
+            <th scope="col">Close date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sprint : ${sprints}">
+            <td th:text="${sprint.id}"></td>
+            <td th:text="${sprint.title}"></td>
+            <td th:text="${sprint.startDay}"></td>
+            <td th:text="${sprint.finish}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

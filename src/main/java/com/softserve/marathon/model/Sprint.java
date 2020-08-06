@@ -4,13 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
@@ -19,15 +13,21 @@ public class Sprint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(columnDefinition = "DATE")
     private LocalDate finish;
-    private LocalDate startDay;
+
+    @Column(name = "start_date", columnDefinition = "DATE")
+    private LocalDate startDate;
+
     @NotNull
-    @Length(min = 2, max = 20)
     private String title;
-    @OneToMany(mappedBy = "sprint", fetch = FetchType.LAZY)
-    private List<Task> tasks = new ArrayList<>();
+
     @ManyToOne
     private Marathon marathon;
+
+    @OneToMany(mappedBy = "sprint", fetch = FetchType.LAZY)
+    private List<Task> tasks = new ArrayList<>();
 
     public Sprint() {
     }
@@ -53,11 +53,11 @@ public class Sprint {
     }
 
     public LocalDate getStartDay() {
-        return startDay;
+        return startDate;
     }
 
     public void setStartDay(LocalDate startDay) {
-        this.startDay = startDay;
+        this.startDate = startDay;
     }
 
     public String getTitle() {
@@ -91,14 +91,14 @@ public class Sprint {
         Sprint sprint = (Sprint) o;
         return id == sprint.id &&
                 finish.equals(sprint.finish) &&
-                startDay.equals(sprint.startDay) &&
+                startDate.equals(sprint.startDate) &&
                 title.equals(sprint.title) &&
                 marathon.equals(sprint.marathon);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, finish, startDay, title, marathon);
+        return Objects.hash(id, finish, startDate, title, marathon);
     }
 }
 

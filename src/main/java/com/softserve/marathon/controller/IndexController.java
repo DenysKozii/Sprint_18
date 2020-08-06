@@ -14,10 +14,15 @@ public class IndexController {
     public IndexController() {
     }
 
-    @GetMapping(value = {"", "/index"})
+    @GetMapping(value = {""})
     public String showIndex() {
         logger.info("Rendering index.html");
         return "index";
+    }
+
+    @GetMapping(value = {"/index"})
+    public String redirectIndex() {
+        return "redirect:/";
     }
 
 }

@@ -4,13 +4,28 @@
 
 <body>
 
-<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a th:href="${'/index'}" class="nav-item nav-link active">Home</a>
-            <a th:href="${'/marathons/'}" class="nav-item nav-link active">Marathons</a>
-            <a th:href="${'/students/'}"class="nav-item nav-link active">Students</a>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Marathon</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li th:classappend="${#request.requestURI.startsWith('')  ? 'active':''}" class="nav-item">
+                <a class="nav-link" th:href="${'/index'}">Home</a>
+            </li>
+            <li th:classappend="${#request.requestURI.startsWith('/marathons') ? 'active':''}" class="nav-item">
+                <a class="nav-link" th:href="${'/marathons'}">Marathons</a>
+            </li>
+            <li th:classappend="${#request.requestURI.startsWith('/students') ? 'active':''}" class="nav-item">
+                <a class="nav-link" th:href="${'/students'}">Students</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Log In</button>
+            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log Out</button>
+        </form>
     </div>
 </nav>
 

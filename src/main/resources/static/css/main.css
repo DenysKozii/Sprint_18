@@ -36,3 +36,23 @@ a.badge.badge-primary {
 #action-bar {
     padding: 0;
 }
+
+.login-container {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    width: 30%;
+}
+
+.login-form {
+    padding: 5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+
+.login-form h3 {
+    text-align: center;
+    color: #333;
+}
+
+.login-container form {
+    padding: 10%;
+}

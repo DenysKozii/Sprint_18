@@ -19,22 +19,22 @@ public class LoginController {
     public String addUser(@Valid User user, Errors errors, Model model) {
         if (errors.hasErrors()) {
             model.addAttribute("error", true);
-            return "student/registration";
+            return "registration";
         }
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             model.addAttribute("message", "Check your password input");
-            return "student/registration";
+            return "registration";
         }
         boolean addUser = userServiceimpl.createOrUpdateUser(user);
         if (addUser) {
             return "redirect:/login";
         }
         model.addAttribute("message", "User already exists!");
-        return "student/login";
+        return "login";
     }
 
     @GetMapping("/registration")
     public String register() {
-        return "student/registration";
+        return "registration";
     }
 }

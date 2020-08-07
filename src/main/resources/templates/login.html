@@ -1,39 +1,28 @@
-<!DOCTYPE HTML>
-
-<html xmlns:th="https://www.thymeleaf.org">
-
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: common_header(~{::title})">
-    <title>Marathon Log In</title>
+    <title th:text="'Login'"></title>
 </head>
-
-<body>
-<div th:replace="fragments/navbar :: nav"></div>
-<div class="container login-container">
-    <div class="login-form">
-        <h3>Log In</h3>
-        <form th:action="@{/login}" method="post">
-            <div class="form-group">
-                <div th:if="${param.error}">
-                    <div class="alert alert-danger">Invalid email or password.</div>
+<body class="text-center bg-light">
+<div class="container">
+    <div class="col-5 mx-auto">
+        <div class="py-5 text-center">
+            <form method="post" class="form-signin mx-5" th:action="@{/login}">
+                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input type="email" id="inputEmail" name="email" class="my-2 form-control" placeholder="Email address"
+                       required autofocus>
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" name="password" class="my-2 form-control"
+                       placeholder="Password" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <br/>
+                <div class="etc-login-form">
+                    <p>Don't have an acc? <a href="/registration">Register here</a></p>
                 </div>
-                <div th:if="${param.logout}">
-                    <div class="alert alert-danger">You have been logged out</div>
-                </div>
-                <label for="username">Email</label>
-                <input type="text" class="form-control" id="username" name="username">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <!--        <div class="form-group form-check">-->
-            <!--            <input type="checkbox" class="form-check-input" id="exampleCheck1">-->
-            <!--            <label class="form-check-label" for="exampleCheck1">Check me out</label>-->
-            <!--        </div>-->
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
-<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

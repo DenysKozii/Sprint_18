@@ -21,16 +21,19 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
-    private final UserRepository userRepository;
-    private final MarathonRepository marathonRepository;
-    private final ProgressRepository progressRepository;
-
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, MarathonRepository marathonRepository, ProgressRepository progressRepository) {
-        this.userRepository = userRepository;
-        this.marathonRepository = marathonRepository;
-        this.progressRepository = progressRepository;
-    }
+    private  UserRepository userRepository;
+    @Autowired
+    private  MarathonRepository marathonRepository;
+    @Autowired
+    private  ProgressRepository progressRepository;
+
+
+//    public UserServiceImpl(UserRepository userRepository, MarathonRepository marathonRepository, ProgressRepository progressRepository) {
+//        this.userRepository = userRepository;
+//        this.marathonRepository = marathonRepository;
+//        this.progressRepository = progressRepository;
+//    }
 
     @Override
     @Transactional

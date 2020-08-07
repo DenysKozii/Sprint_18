@@ -1,10 +1,6 @@
 package com.softserve.marathon.repository;
 
-import com.softserve.marathon.model.Marathon;
-import com.softserve.marathon.model.Progress;
-import com.softserve.marathon.model.Sprint;
-import com.softserve.marathon.model.Task;
-import com.softserve.marathon.model.User;
+import com.softserve.marathon.model.*;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -23,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ProgressRepositoryTest {
     private final TestEntityManager entityManager;
     private final ProgressRepository progressRepository;
+    Role trainee = new Role("STUDENT");
 
     @Autowired
     public ProgressRepositoryTest(TestEntityManager entityManager, ProgressRepository progressRepository) {
@@ -33,7 +30,7 @@ public class ProgressRepositoryTest {
     @Test
     public void checkProgressExistTest() {
         //given
-        User user = new User("testt@email", "ivan", "ivanov", "password", User.Role.STUDENT);
+        User user = new User("testt@email", "ivan", "ivanov", "password", trainee);
         entityManager.persistAndFlush(user);
         Task task = new Task("junit");
         entityManager.persistAndFlush(task);
@@ -53,7 +50,7 @@ public class ProgressRepositoryTest {
     @Test
     public void allProgressByUserIdAndMarathonIdTest() {
 //        //given
-        User user = new User("test2@email", "petro", "petro", "password2", User.Role.STUDENT);
+        User user = new User("test2@email", "petro", "petro", "password2", trainee);
         entityManager.persistAndFlush(user);
         Marathon marathon = new Marathon("second marathon");
         marathon.setUsers(Collections.singletonList(user));
@@ -80,7 +77,7 @@ public class ProgressRepositoryTest {
     @Test
     public void allProgressByUserIdAndSprintIdTest() {
         //        //given
-        User user = new User("test2@email", "petro", "petro", "password2", User.Role.STUDENT);
+        User user = new User("test2@email", "petro", "petro", "password2", trainee);
         entityManager.persistAndFlush(user);
         Sprint sprint = new Sprint("OOP");
         entityManager.persistAndFlush(sprint);

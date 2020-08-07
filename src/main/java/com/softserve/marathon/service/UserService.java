@@ -1,6 +1,7 @@
 package com.softserve.marathon.service;
 
 import com.softserve.marathon.model.Marathon;
+import com.softserve.marathon.model.Role;
 import com.softserve.marathon.model.Task;
 import com.softserve.marathon.model.User;
 import java.util.List;
@@ -14,9 +15,9 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
-    User createOrUpdateUser(User user);
+    boolean createOrUpdateUser(User user);
 
-    List<User> getAllByRole(User.Role role);
+    List<User> getAllByRole(Role role);
 
     List<User> getAllByMarathon(Long marathonId);
 

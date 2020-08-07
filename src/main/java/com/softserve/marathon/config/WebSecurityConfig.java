@@ -37,14 +37,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/registration", "/h2-console/**", "/static/**", "/").permitAll()
+        http
+                .authorizeRequests()
+                .antMatchers("/registration", "/h2-console/**", "/static/**", "/", "/index").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("student/login")
+                .loginPage("/login")
                 .usernameParameter("email")
-                .defaultSuccessUrl("/students", true)
+                .defaultSuccessUrl("/marathons", true)
                 .permitAll()
                 .and()
                 .logout()

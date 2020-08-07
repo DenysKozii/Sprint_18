@@ -80,6 +80,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public boolean createOrUpdateUser(User entity) {
         entity.setActive(true);
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        entity.setRole(roleRepository.findByRole("STUDENT"));
         if (entity.getId() != null) {
             Optional<User> user = userRepository.findById(entity.getId());
             if (user.isPresent()) {

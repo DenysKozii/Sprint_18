@@ -43,7 +43,7 @@ public class User implements UserDetails {
 
 //    @Enumerated(EnumType.STRING)
 //    private Role role;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     @JoinColumn(name = "id_role")
     private Role role;
 

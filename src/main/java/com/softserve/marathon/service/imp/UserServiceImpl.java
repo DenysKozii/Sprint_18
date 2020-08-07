@@ -4,6 +4,7 @@ import com.softserve.marathon.exception.EntityNotFoundException;
 import com.softserve.marathon.model.*;
 import com.softserve.marathon.repository.MarathonRepository;
 import com.softserve.marathon.repository.ProgressRepository;
+import com.softserve.marathon.repository.RoleRepository;
 import com.softserve.marathon.repository.UserRepository;
 import com.softserve.marathon.service.UserService;
 
@@ -27,7 +28,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private  MarathonRepository marathonRepository;
     @Autowired
     private  ProgressRepository progressRepository;
-
+    @Autowired
+    RoleRepository roleRepository;
 
 //    public UserServiceImpl(UserRepository userRepository, MarathonRepository marathonRepository, ProgressRepository progressRepository) {
 //        this.userRepository = userRepository;
@@ -74,6 +76,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public boolean createOrUpdateUser(User entity) {
+        entity.setActive(true);
         if (entity.getId() != null) {
             Optional<User> user = userRepository.findById(entity.getId());
             if (user.isPresent()) {
@@ -145,6 +148,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        System.out.println(email);
+        System.out.println(userRepository.getUserByEmail(email));
+        System.out.println(userRepository.getUserByEmail(email).getPassword());
         return userRepository.getUserByEmail(email);
     }
 }

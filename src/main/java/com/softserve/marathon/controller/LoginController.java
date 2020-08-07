@@ -25,6 +25,7 @@ public class LoginController {
             model.addAttribute("message", "Check your password input");
             return "registration";
         }
+
         boolean addUser = userServiceimpl.createOrUpdateUser(user);
         if (addUser) {
             return "redirect:/login";

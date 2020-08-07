@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:replace="~{/components/common :: header(value='Login')}"></div>
+<head th:replace="fragments/header :: common_header(~{::title})">
+    <title th:text="'Login'"></title>
+</head>
 <body class="text-center bg-light">
 <div class="container">
     <div class="col-5 mx-auto">
         <div class="py-5 text-center">
             <form method="post" class="form-signin mx-5" th:action="@{/login}">
-                <img class="d-block mx-auto mb-4"
-                     src="https://i.pinimg.com/originals/41/00/09/4100098c8af8b04589771aa58935f4c8.png" alt=""
-                     width="72"
-                     height="72">
                 <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
                 <div th:if="${param.error}">
                     <div class="alert alert-danger">Invalid email or password.</div>
@@ -31,11 +29,9 @@
                 <div class="etc-login-form">
                     <p>Don't have an acc? <a href="/registration">Register here</a></p>
                 </div>
-                <p class="mt-5 mb-3 text-muted">&copy; 2019-2021</p>
             </form>
         </div>
     </div>
 </div>
 </body>
-<div th:replace="~{/components/common :: js-lb}"></div>
 </html>

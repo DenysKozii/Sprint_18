@@ -22,27 +22,12 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     @Autowired
     private UserServiceImpl userServiceImpl;
-
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserServiceImpl();
     }
-
-//    @Bean
-//    public DataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-//        dataSource.setUrl("jdbc:mysql://localhost:3306/spring-security-db");
-//        dataSource.setUsername("root"); dataSource.setPassword("1111");
-//        return dataSource;
-//    }
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth, DataSource dataSource) throws Exception {
-//        auth.jdbcAuthentication().dataSource(dataSource);
-//    }
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -53,14 +38,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/registration", "/h2-console/**", "/static/**", "/", "/index").permitAll()
+                .antMatchers("/registration", "/h2-console/**", "/static/**"/*, "/", "/index"*/).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("student/login")
-                .loginProcessingUrl("/login")
+                .loginPage("/login")
+//                .loginProcessingUrl("/login")
                 .usernameParameter("email")
-                .defaultSuccessUrl("/marathons", true)
+                .defaultSuccessUrl("/", true)
                 .permitAll()
                 .and()
                 .logout()
@@ -68,12 +53,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.headers().frameOptions().disable();
-    }
-
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userServiceImpl)
-                .passwordEncoder(passwordEncoder);
     }
 }

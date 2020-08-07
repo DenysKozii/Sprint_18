@@ -7,12 +7,6 @@ import com.softserve.marathon.repository.ProgressRepository;
 import com.softserve.marathon.repository.RoleRepository;
 import com.softserve.marathon.repository.UserRepository;
 import com.softserve.marathon.service.UserService;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,32 +14,37 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Service
-@Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
+
+    private final UserRepository userRepository;
+    private final MarathonRepository marathonRepository;
+    private final ProgressRepository progressRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    private  UserRepository userRepository;
-    @Autowired
-    private  MarathonRepository marathonRepository;
-    @Autowired
-    private  ProgressRepository progressRepository;
-    @Autowired
-    RoleRepository roleRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-//    public UserServiceImpl(UserRepository userRepository, MarathonRepository marathonRepository, ProgressRepository progressRepository) {
-//        this.userRepository = userRepository;
-//        this.marathonRepository = marathonRepository;
-//        this.progressRepository = progressRepository;
-//    }
+    public UserServiceImpl(UserRepository userRepository, MarathonRepository marathonRepository, ProgressRepository progressRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.marathonRepository = marathonRepository;
+        this.progressRepository = progressRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     @Transactional
     public void delete(Long id) {
         Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()){
-             userRepository.deleteById(id);
-        }else {
+        if (user.isPresent()) {
+            userRepository.deleteById(id);
+        } else {
             throw new EntityNotFoundException("User doesn't exist");
         }
     }
@@ -58,20 +57,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User getUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()){
+        if (user.isPresent()) {
             return user.get();
         } else {
-                throw new EntityNotFoundException("User with id " + id + " doesn't exist");
+            throw new EntityNotFoundException("User with id " + id + " doesn't exist");
         }
     }
 
     @Override
+    @Transactional
     public User getUserByEmail(String email) {
         User user = userRepository.getUserByEmail(email);
-        if (user.getId() != null){
+        if (user.getId() != null) {
             return user;
         } else {
-                throw new EntityNotFoundException("User with id " + email + " doesn't exist");
+            throw new EntityNotFoundException("User with id " + email + " doesn't exist");
         }
     }
 
@@ -98,18 +98,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public List<User> getAllByRole(Role role) {
         List<User> roles = userRepository.getAllByRole(role);
         return !roles.isEmpty() ? roles : new ArrayList<>();
     }
 
     @Override
+    @Transactional
     public List<User> getAllByMarathon(Long marathonId) {
         List<User> users = userRepository.getAllByMarathon(marathonId);
         return !users.isEmpty() ? users : new ArrayList<>();
     }
 
     @Override
+    @Transactional
     public boolean addUserToMarathon(User user, Marathon marathon) {
         User userInstance = userRepository.getOne(user.getId());
         Marathon marathonInstance = marathonRepository.getOne(marathon.getId());
@@ -122,6 +125,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public boolean deleteUserFromMarathon(Long userId, Long marathonId) {
         User userInstance = userRepository.getOne(userId);
         Marathon marathonInstance = marathonRepository.getOne(marathonId);
@@ -133,9 +137,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return false;
     }
 
-    // the same functionality in progress service
-    // com.softserve.marathon.softservemarathon.service.imp.ProgressServiceImpl.addTaskForStudent
     @Override
+    @Transactional
     public boolean addUserToTask(User user, Task task) {
         if (!progressRepository.checkProgressExist(user.getId(), task.getId())) {
             Progress progress = new Progress();
@@ -150,6 +153,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         System.out.println(email);
         System.out.println(userRepository.getUserByEmail(email));

@@ -5,6 +5,7 @@
     <title th:text="'Registration'"></title>
 </head>
 <body class="bg-light">
+<div th:replace="fragments/navbar :: nav"></div>
 <div class="container">
     <div th:if="${error}">
         <div class="alert alert-danger mt-2">Something went wrong. PLease fill all the inputs</div>
@@ -62,12 +63,13 @@
                 <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
                 <br/>
                 <div class="etc-login-form">
-                    <p>Already have an account? <a href="/login">Login here</a></p>
+                    <p>Already have an account? <a href="/login-form">Login here</a></p>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 <!--<script src="/validation.js"></script>-->
 </html>

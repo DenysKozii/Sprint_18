@@ -37,15 +37,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers("/registration", "/h2-console/**", "/static/**", "/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("student/login")
                 .usernameParameter("email")
-                .defaultSuccessUrl("/profile", true)
+                .defaultSuccessUrl("/students", true)
                 .permitAll()
                 .and()
                 .logout()

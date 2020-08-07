@@ -1,5 +1,6 @@
 package com.softserve.marathon.controller;
 
+import com.softserve.marathon.model.Role;
 import com.softserve.marathon.service.MarathonService;
 import com.softserve.marathon.service.UserService;
 import com.softserve.marathon.model.Marathon;
@@ -25,6 +26,7 @@ public class StudentControllerTest {
     private final MockMvc mockMvc;
     private final UserService userService;
     private final MarathonService marathonService;
+    Role trainee = new Role("STUDENT");
 
     @Autowired
     public StudentControllerTest(MockMvc mockMvc, UserService userService, MarathonService marathonService) {
@@ -47,7 +49,7 @@ public class StudentControllerTest {
             u.setFirstName("name_" + i);
             u.setLastName("surname_" + i);
             u.setPassword("password" + i);
-            u.setRole(User.Role.STUDENT);
+            u.setRole(trainee);
             userService.createOrUpdateUser(u);
             userService.addUserToMarathon(u, i % 2 == 0 ? marathon1 : marathon2);
         }
@@ -58,7 +60,7 @@ public class StudentControllerTest {
             u.setFirstName("name_" + i);
             u.setLastName("surname_" + i);
             u.setPassword("password" + i);
-            u.setRole(User.Role.MENTOR);
+            u.setRole(trainee);
             userService.createOrUpdateUser(u);
         }
 
@@ -66,7 +68,7 @@ public class StudentControllerTest {
 
     @Test
     public void studentsListTest() throws Exception {
-        List<User> expected = userService.getAllByRole(User.Role.STUDENT);
+        List<User> expected = userService.getAllByRole(trainee);
         mockMvc.perform(MockMvcRequestBuilders.get("/students"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("students"))
@@ -79,7 +81,7 @@ public class StudentControllerTest {
         marathonService.createOrUpdateMarathon(marathon);
 
         User student = new User();
-        student.setRole(User.Role.STUDENT);
+        student.setRole(trainee);
         student.setEmail("user1@test.com");
         student.setFirstName("First name");
         student.setLastName("Last name");
@@ -101,7 +103,7 @@ public class StudentControllerTest {
     @Test
     public void deleteStudentFromMarathonTest() throws Exception {
         User student = new User();
-        student.setRole(User.Role.STUDENT);
+        student.setRole(trainee);
         student.setEmail("user2@test.com");
         student.setFirstName("First name");
         student.setLastName("Last name");
@@ -117,7 +119,7 @@ public class StudentControllerTest {
     @Test
     public void editStudentFormTest()  throws Exception {
         User expected = new User();
-        expected.setRole(User.Role.STUDENT);
+        expected.setRole(trainee);
         expected.setEmail("user3@test.com");
         expected.setFirstName("First name");
         expected.setLastName("Last name");
@@ -133,7 +135,7 @@ public class StudentControllerTest {
     @Test
     public void editStudentFormSubmitTest() throws Exception {
         User user = new User();
-        user.setRole(User.Role.STUDENT);
+        user.setRole(trainee);
         user.setEmail("user4@test.com");
         user.setFirstName("First name");
         user.setLastName("Last name");
@@ -182,7 +184,7 @@ public class StudentControllerTest {
         Marathon marathon = new Marathon("test");
         marathonService.createOrUpdateMarathon(marathon);
         User user = new User();
-        user.setRole(User.Role.STUDENT);
+        user.setRole(trainee);
         user.setEmail("user6@test.com");
         user.setFirstName("First name");
         user.setLastName("Last name");

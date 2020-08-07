@@ -22,10 +22,13 @@
                 <a class="nav-link" th:href="${'/students'}">Students</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Log In</button>
-            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log Out</button>
-        </form>
+        <div class="my-2 my-lg-0">
+            <a sec:authorize="isAnonymous()" th:href="${'/form-login'}" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Log In</a>
+            <a sec:authorize="isAnonymous()" th:href="${'/registration'}" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Register</a>
+            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="form-inline">
+                <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log Out</button>
+            </form>
+        </div>
     </div>
 </nav>
 

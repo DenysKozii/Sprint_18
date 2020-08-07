@@ -6,6 +6,7 @@ import com.softserve.marathon.service.imp.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.sql.DataSource;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -23,11 +26,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserServiceImpl userServiceImpl;
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return new UserServiceImpl();
-//    }
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserServiceImpl();
+    }
 
+//    @Bean
+//    public DataSource dataSource() {
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//        dataSource.setUrl("jdbc:mysql://localhost:3306/spring-security-db");
+//        dataSource.setUsername("root"); dataSource.setPassword("1111");
+//        return dataSource;
+//    }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth, DataSource dataSource) throws Exception {
+//        auth.jdbcAuthentication().dataSource(dataSource);
+//    }
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -37,13 +52,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers("/registration", "/h2-console/**", "/static/**", "/", "/index").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("student/login")
+                .loginProcessingUrl("/login")
                 .usernameParameter("email")
                 .defaultSuccessUrl("/marathons", true)
                 .permitAll()
@@ -51,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
 
-        http.csrf().disable(); //just for h2 console see (got 403 error - Forbidden)
+        http.csrf().disable();
         http.headers().frameOptions().disable();
     }
 

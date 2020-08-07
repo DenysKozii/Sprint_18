@@ -37,13 +37,13 @@ public class User implements UserDetails {
     private String lastName;
 
     @NotNull
-    @Size(min = 6, max = 15, message = "Password must be between 6 and 15 characters")
+//    @Size(min = 3, max = 15, message = "Password must be between 3 and 15 characters")
     @Column(nullable = false)
     private String password;
 
 //    @Enumerated(EnumType.STRING)
 //    private Role role;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     @JoinColumn(name = "id_role")
     private Role role;
 

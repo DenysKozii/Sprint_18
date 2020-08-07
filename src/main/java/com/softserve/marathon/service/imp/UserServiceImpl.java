@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,7 +31,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private  ProgressRepository progressRepository;
     @Autowired
     RoleRepository roleRepository;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 //    public UserServiceImpl(UserRepository userRepository, MarathonRepository marathonRepository, ProgressRepository progressRepository) {
 //        this.userRepository = userRepository;
 //        this.marathonRepository = marathonRepository;
@@ -77,6 +79,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     public boolean createOrUpdateUser(User entity) {
         entity.setActive(true);
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         if (entity.getId() != null) {
             Optional<User> user = userRepository.findById(entity.getId());
             if (user.isPresent()) {

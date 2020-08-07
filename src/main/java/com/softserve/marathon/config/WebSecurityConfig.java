@@ -28,22 +28,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         return new UserServiceImpl();
     }
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder(8);
     }
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/registration", "/h2-console/**", "/static/**"/*, "/", "/index"*/).permitAll()
+                .antMatchers("/registration", "/h2-console/**", "/static.css/**"/*, "/", "/index"*/).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-//                .loginProcessingUrl("/login")
                 .usernameParameter("email")
                 .defaultSuccessUrl("/", true)
                 .permitAll()
@@ -57,6 +55,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userServiceImpl)
-                .passwordEncoder(passwordEncoder);
+                .passwordEncoder(bCryptPasswordEncoder());
     }
 }

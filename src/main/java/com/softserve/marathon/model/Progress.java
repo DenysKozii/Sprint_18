@@ -1,9 +1,10 @@
 package com.softserve.marathon.model;
 
-import java.time.LocalDate;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
+import java.time.LocalDate;
 
 @Entity
 public class Progress {

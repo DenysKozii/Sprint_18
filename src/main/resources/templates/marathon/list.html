@@ -13,7 +13,7 @@
     <div class="container" id="action-bar">
         <div class="row align-items-center">
             <div class="col-md-2 offset-md-10 text-right">
-                <a sec:authorize="hasAnyAuthority('MENTOR','ADMIN')" href="/marathons/add" class="btn btn-primary" role="button">Create Marathon</a>
+                <a sec:authorize="hasAnyRole('MENTOR','ADMIN')" href="/marathons/add" class="btn btn-primary" role="button">Create Marathon</a>
             </div>
         </div>
     </div>
@@ -32,10 +32,10 @@
             <td th:text="${marathon.id}"></td>
             <td th:text="${marathon.title}"></td>
             <td>
-                <a sec:authorize="hasAnyAuthority('MENTOR','ADMIN')" th:href="${'/students/' + marathon.id}" class="btn btn-info" role="button">Students</a>
+                <a sec:authorize="hasAnyRole('MENTOR','ADMIN')" th:href="${'/students/' + marathon.id}" class="btn btn-info" role="button">Students</a>
                 <a th:href="${'/sprints/marathon/' + marathon.id}" class="btn btn-info" role="button">Sprints</a>
-                <a sec:authorize="hasAnyAuthority('MENTOR','ADMIN')" th:href="${'/marathons/edit/' + marathon.id}" class="btn btn-warning" role="button">Edit</a>
-                <a sec:authorize="hasAnyAuthority('MENTOR','ADMIN')" th:href="${'/marathons/delete/' + marathon.id}" class="btn btn-danger" role="button">Close</a>
+                <a sec:authorize="hasAnyRole('MENTOR','ADMIN')" th:href="${'/marathons/edit/' + marathon.id}" class="btn btn-warning" role="button">Edit</a>
+                <a sec:authorize="hasAnyRole('MENTOR','ADMIN')" th:href="${'/marathons/delete/' + marathon.id}" class="btn btn-danger" role="button">Close</a>
             </td>
         </tr>
         </tbody>

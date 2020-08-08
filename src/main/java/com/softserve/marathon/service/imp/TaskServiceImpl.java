@@ -1,18 +1,18 @@
 package com.softserve.marathon.service.imp;
 
 import com.softserve.marathon.exception.EntityNotFoundException;
-import com.softserve.marathon.repository.ProgressRepository;
-import com.softserve.marathon.repository.TaskRepository;
-import com.softserve.marathon.service.TaskService;
 import com.softserve.marathon.model.Progress;
 import com.softserve.marathon.model.Sprint;
 import com.softserve.marathon.model.Task;
-
-import java.time.LocalDate;
-import java.util.Optional;
-import javax.transaction.Transactional;
+import com.softserve.marathon.repository.ProgressRepository;
+import com.softserve.marathon.repository.TaskRepository;
+import com.softserve.marathon.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @Transactional

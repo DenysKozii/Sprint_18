@@ -4,6 +4,7 @@ import com.softserve.marathon.exception.EntityNotFoundException;
 import com.softserve.marathon.model.Progress;
 import com.softserve.marathon.model.Task;
 import com.softserve.marathon.model.User;
+
 import java.util.List;
 
 public interface ProgressService {

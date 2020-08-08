@@ -1,19 +1,19 @@
 package com.softserve.marathon.service.imp;
 
 import com.softserve.marathon.exception.EntityNotFoundException;
-import com.softserve.marathon.repository.SprintRepository;
-import com.softserve.marathon.service.SprintService;
-import com.softserve.marathon.service.TaskService;
 import com.softserve.marathon.model.Marathon;
 import com.softserve.marathon.model.Sprint;
 import com.softserve.marathon.model.Task;
+import com.softserve.marathon.repository.SprintRepository;
+import com.softserve.marathon.service.SprintService;
+import com.softserve.marathon.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
@@ -44,6 +44,11 @@ public class SprintServiceImpl implements SprintService {
     @Override
     public List<Sprint> getSprintsByMarathon(Long id) {
         return sprintRepository.getSprintsByMarathonId(id);
+    }
+
+    @Override
+    public List<Sprint> getSprintByUserIdAndMarathon(Long userId, Long marathonId) {
+        return sprintRepository.getSprintByUserIdAndMarathon(userId, marathonId);
     }
 
     @Override

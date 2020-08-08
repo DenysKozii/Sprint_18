@@ -4,6 +4,7 @@ import com.softserve.marathon.model.Marathon;
 import com.softserve.marathon.model.Role;
 import com.softserve.marathon.model.Task;
 import com.softserve.marathon.model.User;
+
 import java.util.List;
 
 public interface UserService {

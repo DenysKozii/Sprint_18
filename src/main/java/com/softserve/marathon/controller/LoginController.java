@@ -28,7 +28,7 @@ public class LoginController {
 
         boolean addUser = userServiceimpl.createOrUpdateUser(user);
         if (addUser) {
-            return "redirect:/login";
+            return "redirect:/login-form";
         }
         model.addAttribute("message", "User already exists!");
         return "login";

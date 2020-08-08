@@ -12,14 +12,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("userServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder(8);
@@ -31,25 +31,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(bCryptPasswordEncoder());
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/index", "/", "/form-login**", "/registration**", "/css/*", "/static/*").permitAll()
+                .antMatchers("/students*/**", "/marathons/*/**").hasAnyAuthority("ADMIN","MENTOR")
                 .anyRequest().authenticated()
-                .and()
+            .and()
                 .formLogin()
                 .loginPage("/form-login")
                 .usernameParameter("email")
                 .defaultSuccessUrl("/marathons", true)
                 .permitAll()
-                .and()
+            .and()
                 .logout()
                 .logoutSuccessUrl("/form-login")
                 .deleteCookies("JSESSIONID");
-
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
-
     }
 }

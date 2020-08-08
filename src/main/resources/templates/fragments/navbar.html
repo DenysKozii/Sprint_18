@@ -19,7 +19,7 @@
             <li th:classappend="${#request.requestURI.startsWith('/marathons') ? 'active':''}" class="nav-item">
                 <a class="nav-link" th:href="${'/marathons'}">Marathons</a>
             </li>
-            <li sec:authorize="hasAnyAuthority('MENTOR','ADMIN')"
+            <li sec:authorize="hasAnyRole('MENTOR','ADMIN')"
                 th:classappend="${#request.requestURI.startsWith('/students') ? 'active':''}" class="nav-item">
                 <a class="nav-link" th:href="${'/students'}">Students</a>
             </li>
@@ -28,7 +28,7 @@
             <a sec:authorize="isAnonymous()" th:href="${'/form-login'}" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Log In</a>
             <a sec:authorize="isAnonymous()" th:href="${'/registration'}" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Register</a>
             <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="form-inline">
-                <div class="auth-email" th:text="${#authentication.principal.email}"></div>
+                <div class="auth-email" th:text="${#authentication.principal.username}"></div>
                 <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log Out</button>
             </form>
         </div>

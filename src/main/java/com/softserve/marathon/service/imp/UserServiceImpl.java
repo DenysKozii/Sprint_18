@@ -8,9 +8,6 @@ import com.softserve.marathon.repository.RoleRepository;
 import com.softserve.marathon.repository.UserRepository;
 import com.softserve.marathon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +18,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final MarathonRepository marathonRepository;
     private final ProgressRepository progressRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, MarathonRepository marathonRepository, ProgressRepository progressRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
@@ -35,7 +33,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.marathonRepository = marathonRepository;
         this.progressRepository = progressRepository;
         this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
+//        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -152,13 +150,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         return false;
     }
-
-    @Override
-    @Transactional
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        System.out.println(email);
-        System.out.println(userRepository.getUserByEmail(email));
-        System.out.println(userRepository.getUserByEmail(email).getPassword());
-        return userRepository.getUserByEmail(email);
-    }
 }
+

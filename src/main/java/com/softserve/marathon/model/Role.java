@@ -1,7 +1,6 @@
 package com.softserve.marathon.model;
 
 //import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -9,7 +8,7 @@ import java.util.Set;
 @Entity
 @Table(name = "roles")
 //@Getter
-public class Role implements GrantedAuthority {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -25,8 +24,7 @@ public class Role implements GrantedAuthority {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
     private Set<User> users;
 
-    @Override
-    public String getAuthority() {
+    public String getRole() {
         return role;
     }
 }

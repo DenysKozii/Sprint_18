@@ -1,12 +1,11 @@
 package com.softserve.marathon.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Sprint {

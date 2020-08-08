@@ -1,10 +1,11 @@
 package com.softserve.marathon.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Marathon {

@@ -1,5 +1,7 @@
 package com.softserve.marathon.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -38,6 +40,7 @@ public class User {
     @NotNull
 //    @Size(min = 3, max = 15, message = "Password must be between 3 and 15 characters")
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
 //    @Enumerated(EnumType.STRING)
@@ -47,10 +50,12 @@ public class User {
     private Role role;
 
     @Transient
+    @JsonIgnore
     private String confirmPassword;
     private boolean active;
 
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Marathon> marathons = new ArrayList<>();
 
     public List<Progress> getProgresses() {

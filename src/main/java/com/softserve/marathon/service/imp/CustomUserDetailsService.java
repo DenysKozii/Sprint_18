@@ -16,8 +16,13 @@ import java.util.Collection;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
+
     private UserRepository userRepository;
+
+
+    public CustomUserDetailsService(@Autowired UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

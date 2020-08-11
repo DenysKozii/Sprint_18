@@ -17,7 +17,8 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> grantedAuthorities;
     private Date expirationDate;
-    
+
+    // login = email
     public static CustomUserDetails fromUserEntityToCustomUserDetails(User user) {
         CustomUserDetails customUserDetails = new CustomUserDetails();
         customUserDetails.login = user.getEmail();

@@ -1,6 +1,5 @@
 package com.softserve.marathon.config;
 
-import com.softserve.marathon.service.imp.CustomUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -50,6 +49,7 @@ public class JwtFilter extends GenericFilterBean {
 
     private String getTokenFromRequest(HttpServletRequest request) {
         String bearer = request.getHeader(AUTHORIZATION);
+        System.out.println(bearer);
         if (hasText(bearer) && bearer.startsWith(BEARER)) {
             return bearer.substring(BEARER.length());
         }

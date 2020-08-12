@@ -43,105 +43,70 @@ public class StudentController {
 
     }
 
-
-
     //All students list
-    @Secured({"ROLE_ADMIN","ROLE_MENTOR"})
+    @Secured({"ROLE_ADMIN", "ROLE_MENTOR"})
     @GetMapping("")
     public ResponseEntity<List<User>> studentsList(Model model) {
-       // logger.info("Rendering student/create.html view");
+        // logger.info("Rendering student/create.html view");
         logger.info("GET All students");
-        List<User> students = userService.getAllByRole(roleRepository.findByRole("STUDENT"));
-        return students != null &&  !students.isEmpty()
+        List<User> students = userService.getAllByRole(roleRepository.findByRole("ROLE_STUDENT"));
+        return students != null && !students.isEmpty()
                 ? new ResponseEntity<>(students, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-       // return "student/list";
     }
 
     //Students from specified marathon
     @GetMapping("/{marathonId}")
-    @Secured({"ROLE_ADMIN","ROLE_MENTOR"})
+    @Secured({"ROLE_ADMIN", "ROLE_MENTOR"})
     public ResponseEntity<List<User>> studentsListByMarathon(Model model, @PathVariable Long marathonId) {
         //logger.info("Rendering student/listByMarathon.html view");
         logger.info("GET All students by marathonId " + marathonId);
         List<User> students = marathonService.getMarathonById(marathonId).getUsers();
-//        List<User> allStudents = userService.getAll();
-//        model.addAttribute("students", students);
-//        model.addAttribute("allStudents", allStudents);
-//        return "student/listByMarathon";
         return new ResponseEntity<>(students, HttpStatus.OK);
 
     }
 
     //Delete user from marathon
     @DeleteMapping("/{marathonId}/delete/{studentId}")
-    @Secured({"ROLE_ADMIN","ROLE_MENTOR"})
+    @Secured({"ROLE_ADMIN", "ROLE_MENTOR"})
     public ResponseEntity<?> deleteStudentFromMarathon(@PathVariable Long marathonId, @PathVariable Long studentId) {
         logger.info("DELETE student with id" + studentId + "by marathonId " + marathonId);
         User student = userService.getUserById(studentId);
         boolean deleted = userService.deleteUserFromMarathon(student.getId(), marathonId);
-
-
         return deleted
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-//        logger.info("Deleting student id " + studentId + " from marathon id " + marathonId);
-//        return "redirect:/students/{marathonId}";
     }
 
-    //Edit user
-   /* @GetMapping("/{marathonId}/edit/{studentId}")
-    public String editStudentForm(@PathVariable Long marathonId,
-                                  @PathVariable Long studentId,
-                                  Model model) {
-        logger.info("Rendering student/edit.html view");
-        model.addAttribute("student", userService.getUserById(studentId));
-        return "student/edit";
-    }*/
 
     //Edit user
     @PutMapping("/{marathonId}/edit/{studentId}")
-    @Secured({"ROLE_ADMIN","ROLE_MENTOR"})
+    @Secured({"ROLE_ADMIN", "ROLE_MENTOR"})
     public ResponseEntity<?> editStudentFormSubmit(@Valid @RequestBody User student,
-                                        BindingResult bindingResult,
-                                        @PathVariable Long studentId,
-                                        @PathVariable Long marathonId) {
+                                                   BindingResult bindingResult,
+                                                   @PathVariable Long studentId,
+                                                   @PathVariable Long marathonId) {
 
         logger.info("PUT editing student with id " + studentId);
         if (bindingResult.hasErrors()) {
             logger.error("Error(s) updating student id " + studentId + ": " + bindingResult.getAllErrors());
             throw new EntityNotFoundException("Error(s) updating student id " + studentId + ": " + bindingResult.getAllErrors());
-//            return "student/edit";
         }
-       boolean updated = userService.createOrUpdateUser(student);
+        boolean updated = userService.createOrUpdateUser(student);
 
         return updated == false
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-
-//        logger.info("Updating student id: " + studentId);
-//        return "redirect:/students/{marathonId}";
     }
 
-    //Create user
-    /*@GetMapping("/{marathonId}/create")
-    public String createStudentForm(@PathVariable Long marathonId, Model model,
-                                    @ModelAttribute("errorMessage") String errorMessage,
-                                    @ModelAttribute("student") User student) {
-        logger.info("Rendering student/create.html view");
-        model.addAttribute(marathonId);
-        model.addAttribute("errorMessage", errorMessage);
-        model.addAttribute("student", student != null ? student : new User());
-        return "student/create";
-    }*/
 
     //Create user
     @PostMapping("/{marathonId}/create")
-    @Secured({"ROLE_ADMIN","ROLE_MENTOR"})
+    @Secured({"ROLE_ADMIN", "ROLE_MENTOR"})
     public ResponseEntity<?> createStudentFormSubmit(@Valid @RequestBody User student,
-                                          BindingResult bindingResult,
-                                          @PathVariable Long marathonId,
-                                          RedirectAttributes redirectAttributes) {
+                                                     BindingResult bindingResult,
+                                                     @PathVariable Long marathonId,
+                                                     RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             logger.error("Error(s) creating student" + bindingResult.getAllErrors());
             return new ResponseEntity<>(student, HttpStatus.BAD_REQUEST);
@@ -149,28 +114,13 @@ public class StudentController {
         logger.info("Creating new student for marathon " + marathonId);
         student.setRole(roleRepository.findByRole("STUDENT"));
         try {
-            /*User newStudent = */userService.createOrUpdateUser(student);
+            userService.createOrUpdateUser(student);
             Marathon marathon = marathonService.getMarathonById(marathonId);
             userService.addUserToMarathon(student, marathon);
         } catch (DataIntegrityViolationException e) {
             logger.info("DataIntegrityViolationException occurred::" + "Error=" + e.getMessage());
-//            redirectAttributes.addFlashAttribute("errorMessage", "This email is already in use.");
-//            redirectAttributes.addFlashAttribute("student", student);
             return new ResponseEntity<>(student, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
-
-
-
-    //Add user to marathon
-   /* @GetMapping("/{marathonId}/add")
-    public String addStudent(@RequestParam("studentId") long studentId,
-                             @PathVariable long marathonId) {
-        logger.info("Adding student id " + studentId + " to marathon " + marathonId);
-        userService.addUserToMarathon(
-                userService.getUserById(studentId),
-                marathonService.getMarathonById(marathonId));
-        return "redirect:/students/{marathonId}";
-    }*/
 }

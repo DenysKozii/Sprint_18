@@ -26,8 +26,8 @@ public class UserServiceImpl implements UserService {
     private final MarathonRepository marathonRepository;
     private final ProgressRepository progressRepository;
     private final RoleRepository roleRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, MarathonRepository marathonRepository, ProgressRepository progressRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
@@ -35,7 +35,42 @@ public class UserServiceImpl implements UserService {
         this.marathonRepository = marathonRepository;
         this.progressRepository = progressRepository;
         this.roleRepository = roleRepository;
-//        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
+        initDefaultData();
+
+    }
+
+    private void initDefaultData() {
+        if ((roleRepository.count() == 0)
+                && (userRepository.count() == 0)) {
+            roleRepository.save(new Role("ROLE_MENTOR"));
+            roleRepository.save(new Role("ROLE_STUDENT"));
+            User user = new User();
+            user.setId(1L);
+            user.setRole(roleRepository.findByRole("ROLE_MENTOR"));
+            user.setEmail("user@test.com");
+            user.setFirstName("First name");
+            user.setLastName("Last name");
+            user.setPassword("password");
+            user.setActive(true);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+            User user2 = new User();
+            user2.setId(2L);
+            user2.setRole(roleRepository.findByRole("ROLE_STUDENT"));
+            user2.setEmail("user2@test.com");
+            user2.setFirstName("First name");
+            user2.setLastName("Last name");
+            user2.setPassword("password");
+            user2.setActive(true);
+            user2.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user2);
+            Marathon marathon = new Marathon();
+            marathon.setTitle("marathon 1");
+            marathon.setId(1L);
+            marathon.setClosed(false);
+            marathonRepository.save(marathon);
+        }
     }
 
     @Override
@@ -80,7 +115,8 @@ public class UserServiceImpl implements UserService {
     public boolean createOrUpdateUser(User entity) {
         entity.setActive(true);
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-        entity.setRole(roleRepository.findByRole("STUDENT"));
+        entity.setRole(roleRepository.findByRole("TRAINEE"));
+        System.out.println(entity.getRole());
         if (entity.getId() != null) {
             Optional<User> user = userRepository.findById(entity.getId());
             if (user.isPresent()) {

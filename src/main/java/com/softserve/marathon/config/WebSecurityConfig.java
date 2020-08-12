@@ -1,7 +1,6 @@
 package com.softserve.marathon.config;
 
 
-import com.softserve.marathon.service.imp.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -68,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/index", "/", "/form-login**", "/registration**", "/css/*", "/static/*").permitAll()
-                .antMatchers("/students/*/**", "/marathons/*/**").hasAnyRole("ADMIN","MENTOR")
+                .antMatchers("/students/*/**", "/marathons/*/**")./*hasAnyRole("ADMIN","MENTOR")*/permitAll()
                 .antMatchers("/signup", "/signin").permitAll()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

@@ -60,6 +60,7 @@ public class StudentController {
 
     //Students from specified marathon
     @GetMapping("/{marathonId}")
+    @Secured({"ROLE_ADMIN","ROLE_MENTOR"})
     public ResponseEntity<List<User>> studentsListByMarathon(Model model, @PathVariable Long marathonId) {
         //logger.info("Rendering student/listByMarathon.html view");
         logger.info("GET All students by marathonId " + marathonId);
@@ -74,6 +75,7 @@ public class StudentController {
 
     //Delete user from marathon
     @DeleteMapping("/{marathonId}/delete/{studentId}")
+    @Secured({"ROLE_ADMIN","ROLE_MENTOR"})
     public ResponseEntity<?> deleteStudentFromMarathon(@PathVariable Long marathonId, @PathVariable Long studentId) {
         logger.info("DELETE student with id" + studentId + "by marathonId " + marathonId);
         User student = userService.getUserById(studentId);
@@ -99,6 +101,7 @@ public class StudentController {
 
     //Edit user
     @PutMapping("/{marathonId}/edit/{studentId}")
+    @Secured({"ROLE_ADMIN","ROLE_MENTOR"})
     public ResponseEntity<?> editStudentFormSubmit(@Valid @RequestBody User student,
                                         BindingResult bindingResult,
                                         @PathVariable Long studentId,
@@ -134,6 +137,7 @@ public class StudentController {
 
     //Create user
     @PostMapping("/{marathonId}/create")
+    @Secured({"ROLE_ADMIN","ROLE_MENTOR"})
     public ResponseEntity<?> createStudentFormSubmit(@Valid @RequestBody User student,
                                           BindingResult bindingResult,
                                           @PathVariable Long marathonId,

@@ -5,16 +5,19 @@ import com.softserve.marathon.repository.UserRepository;
 import com.softserve.marathon.service.SprintService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/sprints")
 public class SprintController {
     Logger logger = LoggerFactory.getLogger(SprintController.class);
@@ -28,7 +31,7 @@ public class SprintController {
     }
 
     @GetMapping("/marathon/{marathonId}")
-    public String SprintListByMarathon(@PathVariable Long marathonId,
+    public ResponseEntity<?> SprintListByMarathon(@PathVariable Long marathonId,
                                        Model model,
                                        HttpServletRequest request) {
         String userEmail = request.getUserPrincipal().getName();
@@ -39,8 +42,15 @@ public class SprintController {
         } else {
             sprints = sprintService.getSprintsByMarathon(marathonId);
         }
-        model.addAttribute("sprints", sprints);
-        logger.info("Rendering sprint/list.html view");
-        return "sprint/list";
+
+        logger.info("GET sprints by marathon id");
+
+        return new ResponseEntity<>(sprints, HttpStatus.OK);
+//        model.addAttribute("sprints", sprints);
+//        logger.info("Rendering sprint/list.html view");
+//        return "sprint/list";
+
+
+
     }
 }

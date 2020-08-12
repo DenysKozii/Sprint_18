@@ -1,5 +1,6 @@
 package com.softserve.marathon.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class Marathon {
     @JoinTable(name = "marathon_user",
             joinColumns = @JoinColumn(name = "id_marathon"),
             inverseJoinColumns = @JoinColumn(name = "id_user"))
+    @JsonIgnore
     private List<User> users = new ArrayList<>();
 
     public Marathon() {

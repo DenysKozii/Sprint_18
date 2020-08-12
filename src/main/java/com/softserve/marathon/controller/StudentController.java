@@ -1,6 +1,10 @@
 package com.softserve.marathon.controller;
 
+import com.softserve.marathon.config.JwtProvider;
 import com.softserve.marathon.dto.RoleResponce;
+import com.softserve.marathon.dto.TokenResponse;
+import com.softserve.marathon.dto.UserRequest;
+import com.softserve.marathon.dto.UserResponce;
 import com.softserve.marathon.exception.EntityNotFoundException;
 import com.softserve.marathon.model.Marathon;
 import com.softserve.marathon.model.User;
@@ -9,6 +13,7 @@ import com.softserve.marathon.service.MarathonService;
 import com.softserve.marathon.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +35,15 @@ public class StudentController {
     private final MarathonService marathonService;
     private final RoleRepository roleRepository;
 
+
     public StudentController(UserService userService, MarathonService marathonService, RoleRepository roleRepository) {
         this.userService = userService;
         this.marathonService = marathonService;
         this.roleRepository = roleRepository;
+
     }
+
+
 
     //All students list
     @Secured({"ROLE_ADMIN","ROLE_MENTOR"})
@@ -103,7 +112,7 @@ public class StudentController {
         }
        boolean updated = userService.createOrUpdateUser(student);
 
-        return updated
+        return updated == false
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 

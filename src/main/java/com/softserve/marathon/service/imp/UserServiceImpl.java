@@ -1,5 +1,7 @@
 package com.softserve.marathon.service.imp;
 
+import com.softserve.marathon.dto.UserRequest;
+import com.softserve.marathon.dto.UserResponce;
 import com.softserve.marathon.exception.EntityNotFoundException;
 import com.softserve.marathon.model.*;
 import com.softserve.marathon.repository.MarathonRepository;
@@ -98,6 +100,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public boolean createOrUpdateUser(UserRequest userRequest) {
+        User entity = new User();
+        entity.setActive(true);
+        entity.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        entity.setRole(roleRepository.findByRole("STUDENT"));
+        entity.setEmail(userRequest.getLogin());
+        entity.setFirstName(userRequest.getLogin().substring(0, userRequest.getLogin().indexOf("@")));
+        entity.setLastName(userRequest.getLogin().substring(0, userRequest.getLogin().indexOf("@")));
+        if (entity.getId() != null) {
+            Optional<User> user = userRepository.findById(entity.getId());
+            if (user.isPresent()) {
+                User updateUser = user.get();
+                updateUser.setEmail(userRequest.getLogin());
+                updateUser.setFirstName(entity.getFirstName());
+                updateUser.setLastName(entity.getLastName());
+                updateUser.setRole(entity.getRole());
+                updateUser.setPassword(entity.getPassword());
+                userRepository.save(updateUser);
+                return false;
+            }
+        }
+        userRepository.save(entity);
+        return true;
+    }
+
+    @Override
+    @Transactional
     public List<User> getAllByRole(Role role) {
         List<User> roles = userRepository.getAllByRole(role);
         return !roles.isEmpty() ? roles : new ArrayList<>();
@@ -150,5 +179,19 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
+
+    public UserResponce findByLoginAndPassword(UserRequest userRequest) {
+        UserResponce result = null;
+        User user = userRepository.getUserByEmail(userRequest.getLogin());
+        if ((user != null)
+                && (passwordEncoder.matches(userRequest.getPassword(),
+                user.getPassword()))) {
+            result = new UserResponce();
+            result.setLogin(userRequest.getLogin());
+            result.setRolename(user.getRole().getRole());
+        }
+        return result;
+    }
+
 }
 

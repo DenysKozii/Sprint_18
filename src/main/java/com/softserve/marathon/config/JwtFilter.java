@@ -1,5 +1,6 @@
 package com.softserve.marathon.config;
 
+import com.softserve.marathon.service.imp.CustomUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +29,7 @@ public class JwtFilter extends GenericFilterBean {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)

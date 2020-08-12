@@ -1,5 +1,7 @@
 package com.softserve.marathon.service;
 
+import com.softserve.marathon.dto.UserRequest;
+import com.softserve.marathon.dto.UserResponce;
 import com.softserve.marathon.model.Marathon;
 import com.softserve.marathon.model.Role;
 import com.softserve.marathon.model.Task;
@@ -18,6 +20,8 @@ public interface UserService {
 
     boolean createOrUpdateUser(User user);
 
+    boolean createOrUpdateUser(UserRequest userRequest);
+
     List<User> getAllByRole(Role role);
 
     List<User> getAllByMarathon(Long marathonId);
@@ -27,4 +31,6 @@ public interface UserService {
     boolean deleteUserFromMarathon(Long user, Long marathon);
 
     boolean addUserToTask(User user, Task task);
+
+    UserResponce findByLoginAndPassword(UserRequest userRequest);
 }

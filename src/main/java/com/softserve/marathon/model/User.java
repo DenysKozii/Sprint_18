@@ -33,14 +33,14 @@ public class User {
     private String firstName;
 
     @Column(name = "first_name", length = 20)
-    @NotNull
-    @Size(min = 2, max = 20, message = "Last name must be between 2 and 20 characters")
+   // @NotNull
+   // @Size(min = 2, max = 20, message = "Last name must be between 2 and 20 characters")
     private String lastName;
 
     @NotNull
 //    @Size(min = 3, max = 15, message = "Password must be between 3 and 15 characters")
     @Column(nullable = false)
-    @JsonIgnore
+   // @JsonIgnore
     private String password;
 
 //    @Enumerated(EnumType.STRING)
